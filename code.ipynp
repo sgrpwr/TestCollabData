@@ -1,0 +1,21 @@
+from google.colab import files
+import zipfile, io, os
+
+def read_dir_file(case_f):  # case_f = 0 for uploading one File and case_f = 1 for uploading one Zipped Directory
+    uploaded = files.upload()    # to upload a Full Directory, please Zip it first (use WinZip)
+    for fn in uploaded.keys():
+        name = fn  #.encode('utf-8')
+        #print('\nfile after encode', name)
+        #name = io.BytesIO(uploaded[name])
+    if case_f == 0:    # case of uploading 'One File only'
+        print('\n file name: ', name)
+        return name
+    else:   # case of uploading a directory and its subdirectories and files
+        zfile = zipfile.ZipFile(name, 'r')   # unzip the directory 
+        zfile.extractall()
+        for d in zfile.namelist():   # d = directory
+            print('\n main directory name: ', d)
+            return d
+print('Done!')
+
+zdirName = read_dir_file(1)
